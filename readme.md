@@ -4,17 +4,18 @@ SDK для работы с API Sendsay (бывший Subscribe.PRO).
 
 ## Quick start
 
-	include 'sendsay.php';
+```php
+include 'sendsay.php';
 
-	// Классческий способ создания экземпляра класса
-	$ss = new Sendsay('yourlogin','yoursublogin','yourpassword');
+// Классческий способ создания экземпляра класса
+$ss = new Sendsay('yourlogin','yoursublogin','yourpassword');
 
-	// Краткий способ создания класса
-	$ss = Sendsay('yourlogin','yoursublogin','yourpassword');
+// Краткий способ создания класса
+$ss = Sendsay('yourlogin','yoursublogin','yourpassword');
 
-	// Краткий способ так же подходит для однострочных вызовов
-	Sendsay('yourlogin','yoursublogin','yourpassword')->member('email@test.com');
-
+// Краткий способ так же подходит для однострочных вызовов
+Sendsay('yourlogin','yoursublogin','yourpassword')->member('email@test.com');
+```
 
 ## Roadmap
 
