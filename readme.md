@@ -26,3 +26,4 @@ SDK для работы с API Sendsay (бывший Subscribe.PRO).
 ## Links
 
 [Документация](https://pro.subscribe.ru/API/API.html) Sendsay API
+[Github](https://github.com/bibimij/sendsay)
