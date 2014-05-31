@@ -127,27 +127,27 @@ class Sendsay
 	 * 
 	 * @param  string  емэйл подписчика
 	 * @param  array   массив с данными подписчика
-	 * @param  int     уведомлять подписчика о внесении в базу (1) или нет (0)
-	 * @param  mixed   код шаблона письма
-	 * @param  int     подписчик должен подтвердить внесение в базу (1) или нет (0)
+	 * @param  mixed   код шаблона письма-приветствия (int) или не высылать письмо (FALSE)
+	 * @param  int     необходимость подтверждения внесения в базу
 	 * @param  string  правило изменения ответов анкетных данных (error|update|overwrite)
+	 * @param  string  тип адреса подписчика (email|msisdn)
 	 * 
 	 * @return array
 	 */
-	public function member($email, $data=array(), $notify=0, $template='', $confirm=0, $if_exists='overwrite', $addr_type='email')
+	public function member_set($email, $data=NULL, $notify=FALSE, $confirm=FALSE, $if_exists='overwrite', $addr_type='email')
 	{
 		$this->params = $this->auth+array(
-			'action'               => 'member.set',
-			'addr_type'            => $addr_type,
-			'email'                => $email,
-			'source'               => $_SERVER['REMOTE_ADDR'],
-			'if_exists'            => $if_exists,
-			'newbie.notify'        => $notify,
-			'newbie.notify.letter' => $template,
-			'newbie.confirm'       => $confirm,
-			'obj'                  => $data
+			'action'                   => 'member.set',
+			'addr_type'                => $addr_type,
+			'email'                    => $email,
+			'source'                   => $_SERVER['REMOTE_ADDR'],
+			'if_exists'                => $if_exists,
+			'newbie.letter.no-confirm' => $notify,
+			'newbie.confirm'           => $confirm,
 		);
 		
+		$this->param('obj', $data);
+
 		return $this->send();
 	}
 	
