@@ -636,6 +636,20 @@ class Sendsay
 	}
 
 	/**
+	 * Запрашивает настройки.
+	 * 
+	 * @return array
+	 */
+	public function sys_settings_get()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.settings.get'
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
