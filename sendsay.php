@@ -687,6 +687,30 @@ class Sendsay
 	}
 
 	/**
+	 * Создаёт пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F][Документация]
+	 *
+	 * @param  string  саблогин
+	 * @param  string  пароль
+	 * @param  string  адрес получателя письма с данными пользователя
+	 *
+	 * @return array
+	 */
+	public function user_create($login, $password, $email=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action'   => 'user.create',
+			'sublogin' => $login,
+			'password' => $password
+		);
+
+		$this->param('email', $email);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
