@@ -758,6 +758,27 @@ class Sendsay
 	}
 
 	/**
+	 * Изменяет пароль текущего пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D1%8F-%D1%81%D0%B5%D0%B1%D0%B5][Документация]
+	 *
+	 * @param  string  старый пароль
+	 * @param  string  новый пароль
+	 *
+	 * @return array
+	 */
+	public function sys_password_set($old_password, $new_password)
+	{
+		$this->params = $this->auth+array(
+			'action'       => 'sys.password.set',
+			'password.old' => $old_password,
+			'password.new' => $new_password
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
