@@ -800,6 +800,28 @@ class Sendsay
 	}
 
 	/**
+	 * Запрашивает лог активности аккаунта.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B][Документация]
+	 *
+	 * @param  datetime  дата события от
+	 * @param  datetime  дата события по
+	 *
+	 * @return array
+	 */
+	public function sys_log($from=NULL, $to=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.log'
+		);
+
+		$this->param('from', $from);
+		$this->param('upto', $to);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
