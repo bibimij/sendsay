@@ -841,6 +841,27 @@ class Sendsay
 	}
 
 	/**
+	 * Уставнавливает права доступа пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BF%D1%80%D0%B0%D0%B2][Документация]
+	 *
+	 * @param  string  логин пользователя
+	 * @param  array   список устанавливаемых прав
+	 *
+	 * @return array
+	 */
+	public function rights_set($login, $rights)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'rights.set',
+			'user'   => $login,
+			'list'   => $rights
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
