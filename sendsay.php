@@ -779,6 +779,27 @@ class Sendsay
 	}
 
 	/**
+	 * Отправляет сообщение в техподдержку.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9E%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%81%D0%B0%D0%BF%D0%BF%D0%BE%D1%80%D1%82][Документация]
+	 *
+	 * @param  string  емэйл для связи
+	 * @param  string  текст сообщения
+	 *
+	 * @return array
+	 */
+	public function sys_message($email, $text)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.message',
+			'email'  => $email,
+			'text'   => $text
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
