@@ -920,6 +920,31 @@ class Sendsay
 	}
 
 	/**
+	 * Изменяет внешнюю авторизацию.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8][Документация]
+	 * 
+	 * @param  string  код внешней авторизации
+	 * @param  string  логин внешней авторизации
+	 * @param  string  токен внешней авторизации (refresh token)
+	 *
+	 * @return array
+	 */
+	public function authext_set($id, $login, $token)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.set',
+			'id'     => $id,
+			'type'   => 8,
+			'login'  => $login,
+			'token'  => $token,
+			// 'token'  => $token,
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
