@@ -822,6 +822,25 @@ class Sendsay
 	}
 
 	/**
+	 * Запрашивает права доступа пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A7%D1%82%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%B0%D0%B2][Документация]
+	 *
+	 * @param  string  логин пользователя
+	 *
+	 * @return array
+	 */
+	public function rights_get($login)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'rights.get',
+			'user'   => $login
+		);
+		
+		return $this->send();
+	}
+
+	/**
 	 * Форматирует JSON-строку для отладки.
 	 *
 	 * @param  string  исходная JSON-строка
