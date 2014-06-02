@@ -195,6 +195,27 @@ class Sendsay
 	}
 	
 	/**
+	 * Изменяет название анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  string  название анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_set($id, $name)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.set',
+			'id'     => $id,
+			'name'   => $name
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
