@@ -79,6 +79,25 @@ class Sendsay
 	}
 	
 	/**
+	 * Возвращает список асинхронных запросов.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B0%D1%81%D0%B8%D0%BD%D1%85%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D1%85-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2][Документация]
+	 * 
+	 * @param  array  фильтр; массив должен содержать хотя бы один параметр
+	 * 
+	 * @return array
+	 */
+	public function track_list($filter)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'track.list',
+			'filter' => $filter
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
