@@ -389,9 +389,8 @@ class Sendsay
 	 */
 	public function stat_activity($filter=array(), $result='save', $format='csv', $limit=20, $page=1)
 	{
-		$this->params = $this->auth+array(
+		$this->params = $this->auth+$filter+array(
 			'action'   => 'stat.activity',
-			'gid'      => $gid,
 			'sort'     => 'date',
 			'desc'     => 1,
 			'result'   => is_array($result) ? 'email' : $result,
