@@ -368,31 +368,46 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
+	 * @param  array   фильтр; может содержать следующие параметры:
+	 *                     gid — код группы
+	 *                     from — событие произошло начиная с даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     to — событие произошло не позже даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     issue.from — событие произошло из выпуска вышедшего начиная с даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     issue.to — событие произошло из выпуска вышедшего не позже даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                 из следующих параметров можно указать только один (исключение: можно совместить with_deliver и with_errs)
+	 *                     with_deliver => 1 — включить получивших выпуск
+	 *                     with_errs => 1 — включить подписчиков с ошибками доставки
+	 *                     with_remove => 1 — включить отписавшихся
+	 *                     with_read => 1 — включить прочитавших выпуск
+	 *                     with_links => 1 — включить перешедших по ссылкам
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
+	 * @param  int     число строк на странице
+	 * @param  int     текущая страница
+	 * 
 	 * @return array
 	 */
-	public function stat_activity($select, $gid=NULL, $limit=NULL, $page=NULL, $sort='date',
-		$desc=0, $from=NULL, $to=NULL, $issue_from=NULL, $issue_to=NULL, $result='save',
-		$email=array(), $format='csv')
+	public function stat_activity($filter=array(), $result='save', $format='csv', $limit=20, $page=1)
 	{
-		$this->params = $this->auth+$select+array(
-			'action' => 'stat.activity',
-			'sort'   => $sort,
-			'desc'   => $desc,
-			'result' => $result
+		$this->params = $this->auth+array(
+			'action'   => 'stat.activity',
+			'gid'      => $gid,
+			'sort'     => 'date',
+			'desc'     => 1,
+			'result'   => is_array($result) ? 'email' : $result,
+			'page'     => $page,
+			'pagesize' => $limit
 		);
 		
-		$this->param('gid', $gid);
-		$this->param('limit', $limit);
-		$this->param('page', $page);
 		$this->param('from', $from);
 		$this->param('to', $to);
 		$this->param('issue_from', $issue_from);
 		$this->param('issue_to', $issue_to);
 		
-		switch ($result)
+		switch ($this->params['result'])
 		{
 			case 'email':
-				$this->params['email'] = $email;
+				$this->params['email'] = $result;
 			case 'save':
 				$this->params['result.format'] = $format;
 		}
@@ -436,13 +451,13 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  array  список полей и функций для выборки
-	 * @param  array  фильтр результатов
-	 * @param  array  сортировка результата
-	 * @param  mixed  способ возврата результата; строка с типом или массив с емэйлами получателей
-	 * @param  string формат вывода
-	 * @param  int    число пропускаемых от начала строк данных отчёта; по умолчанию — 0
-	 * @param  int    число выбираемых строк после пропуска skip; по умолчанию — все
+	 * @param  array   список полей и функций для выборки
+	 * @param  array   фильтр результатов
+	 * @param  array   сортировка результата
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
+	 * @param  int     число пропускаемых от начала строк данных отчёта
+	 * @param  int     число выбираемых строк
 	 * 
 	 * @return array
 	 */
