@@ -117,6 +117,22 @@ class Sendsay
 	}
 	
 	/**
+	 * Возвращает список анкет.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82][Документация]
+	 * 
+	 * @return array
+	 */
+	public function anketa_list()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.list'
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
