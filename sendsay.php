@@ -419,22 +419,33 @@ class Sendsay
 	 * @param  array   массив с идентификаторами групп
 	 * @param  string  способ группировки по времени
 	 * @param  string  итог по всем записям (none — не нужен | yes  — нужен | only — только он и нужен)
-	 * @param  int     выводить (1) или нет (0) статистику по тем группам подписчиков, по которым не было отправлено ни одного выпуска
+	 * @param  bool    вывод статистики по группам подписчиков без единого выпуска
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
 	 * 
 	 * @return array
 	 */
-	public function stat_issue($from=NULL, $to=NULL, $groups=array(), $groupby='YM', $total='none', $withempty=0)
+	public function stat_issue($from=NULL, $to=NULL, $groups=array(), $groupby='YM', $total='none', $withempty=FALSE, $result='save', $format='csv')
 	{
 		$this->params = $this->auth+array(
 			'action'     => 'stat.issue',
 			'group'      => $groups,
 			'groupby'    => $groupby,
 			'total'      => $total,
-			'withempty'  => $withempty
+			'withempty'  => $withempty,
+			'result'     => is_array($result) ? 'email' : $result
 		);
 		
 		$this->param('issue.from', $from);
 		$this->param('issue.upto', $to);
+
+		switch ($this->params['result'])
+		{
+			case 'email':
+				$this->params['email'] = $result;
+			case 'save':
+				$this->params['result.format'] = $format;
+		}
 		
 		return $this->send();
 	}
