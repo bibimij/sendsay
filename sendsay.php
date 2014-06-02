@@ -298,7 +298,7 @@ class Sendsay
 	 * 
 	 * @return array
 	 */
-	public function unsubscribe($email, $sync=FALSE)
+	public function member_delete($email, $sync=FALSE)
 	{
 		$this->params = $this->auth+array(
 			'action' => 'member.delete',
