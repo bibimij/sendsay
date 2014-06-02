@@ -293,18 +293,26 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  mixed  строка или массив с емэйл-адресами подписчиков
+	 * @param  mixed  список удаляемых емэйлов (array) или код группы (string)
 	 * @param  bool   флаг асинхронного запуска
 	 * 
 	 * @return array
 	 */
-	public function member_delete($email, $sync=FALSE)
+	public function member_delete($data, $sync=FALSE)
 	{
 		$this->params = $this->auth+array(
 			'action' => 'member.delete',
-			'list'   => is_array($email) ? $email : array($email),
 			'sync'   => $sync
 		);
+
+		if (is_array($data))
+		{
+			$this->params['list'] = $data;
+		}
+		else
+		{
+			$this->params['group'] = $data;
+		}
 		
 		return $this->send();
 	}
