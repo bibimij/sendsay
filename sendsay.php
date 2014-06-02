@@ -399,11 +399,6 @@ class Sendsay
 			'pagesize' => $limit
 		);
 		
-		$this->param('from', $from);
-		$this->param('to', $to);
-		$this->param('issue_from', $issue_from);
-		$this->param('issue_to', $issue_to);
-		
 		switch ($this->params['result'])
 		{
 			case 'email':
