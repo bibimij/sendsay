@@ -326,15 +326,17 @@ class Sendsay
 	 * @param  string  начиная с даты (формат YYYY-MM-DD)
 	 * @param  string  заканчивая датой (формат YYYY-MM-DD)
 	 * @param  array   массив с идентификаторами групп
+	 * @param  string  формат выпуска
 	 * 
 	 * @return array
 	 */
-	public function issue_list($from='1900-01-01', $to=NULL, $groups=array())
+	public function issue_list($from='1900-01-01', $to=NULL, $groups=array(), $format='email')
 	{
 		$this->params = $this->auth+array(
 			'action' => 'issue.list',
 			'from'   => $from,
-			'group'  => $groups
+			'group'  => $groups,
+			'format' => $format
 		);
 		
 		$this->param('upto', $to);
