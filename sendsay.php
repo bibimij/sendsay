@@ -1215,12 +1215,12 @@ class Sendsay
 		$this->params = $this->auth+array(
 			'action'       => 'user.set',
 			'sublogin'     => $login,
-			'status'       => $status,
-			'password.old' => $old_password,
-			'password.new' => $new_password
+			'status'       => $status
 		);
 
 		$this->param('email', $email);
+		$this->param('password.old', $old_password);
+		$this->param('password.new', $new_password);
 		
 		return $this->send();
 	}
