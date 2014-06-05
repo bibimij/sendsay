@@ -410,15 +410,15 @@ class Sendsay
 	}
 	
 	/**
-	 * Возвращает статистику по выпускам.
+	 * Запрашивает статистику по выпускам.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B2%D1%8B%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
 	 * @param  string  начиная с даты (формат YYYY-MM-DD)
 	 * @param  string  заканчивая датой (формат YYYY-MM-DD)
-	 * @param  array   массив с идентификаторами групп
+	 * @param  array   список идентификаторов групп
 	 * @param  string  способ группировки по времени
-	 * @param  string  итог по всем записям (none — не нужен | yes  — нужен | only — только он и нужен)
+	 * @param  string  итог по всем записям (none — не нужен | yes  — нужен | only — только итог)
 	 * @param  bool    вывод статистики по группам подписчиков без единого выпуска
 	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
 	 * @param  string  формат вывода (csv|xlsx)
