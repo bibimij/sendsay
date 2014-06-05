@@ -538,7 +538,7 @@ class Sendsay
 	
 	/**
 	 * Импотирует список подписчиков.
-	 * В случае указания ссылки на список подписчиков, файл должен быть в UTF-8, а поля разделяться запятыми (стандарт CSV).
+	 * В случае указания ссылки на список подписчиков, файл должен быть в UTF-8, а поля разделяться запятыми (CSV-формат).
 	 * Первой строкой или элементом массива идёт заголовок.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%92%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B0-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%BE%D0%B2][Документация]
@@ -548,7 +548,7 @@ class Sendsay
 	 *                     integer — идентификатор уже загруженных данных;
 	 *                     array — массив подписчиков
 	 * @param  array   группа импорта подписчиков
-	 * @param  string  действие, если адрес существует
+	 * @param  string  действие если адрес существует (overwrite|ignore|error)
 	 * @param  bool    срабатывание триггеров
 	 * @param  string  дополнить данными из формата
 	 * @param  string  номер шаблона письма
@@ -565,19 +565,20 @@ class Sendsay
 			'if_exists'      => $exist,
 			'separator'      => ',',
 			'charset'        => 'utf-8',
-			'sequence.event' => $trigger ? 1 : 0,
-			'newbie.confirm' => $confirm ? 1 : 0
+			'sequence.event' => $trigger,
+			'newbie.confirm' => $confirm
 		);
 		
-		if (gettype($data) == 'string')
+
+		if (is_string($data))
 		{
 			$this->params['users.url'] = $data;
 		}
-		elseif (gettype($data) == 'integer')
+		elseif (is_numeric($data))
 		{
 			$this->params['uid'] = $data;
 		}
-		else
+		elseif (is_array($data))
 		{
 			$this->params['users.list'] = json_encode($data);
 		}
