@@ -615,28 +615,26 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B8%D0%BB%D0%B8-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%B2%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  int     код черновика
-	 * @param  string  название черновика
-	 * @param  string  имя отправителя
-	 * @param  string  емэйл отправителя
-	 * @param  string  тема письма
-	 * @param  string  содержимое письма
-	 * @param  string  формат черновика (html|sms|text)
+	 * @param  array  параметры черновика
+	 *                    name — название черновика
+	 *                    format — формат черновика (html|sms|text)
+	 *                    division — идентификатор подразделения, имеющего доступ к черновику
+	 *                    from — емэйл отправителя
+	 *                    sender — имя отправителя
+	 *                    reply.email — обратный адрес для ответа
+	 *                    reply.name — имя для обратного адреса для ответа
+	 *                    to.name — имя получателя
+	 *                    subject — тема письма
+	 *                    text — содердимое черновика
+	 * @param  int    код черновика
 	 * 
 	 * @return array
 	 */
-	public function issue_draft_set($id=NULL, $name=NULL, $from=NULL, $sender=NULL, $subject=NULL, $text=NULL, $format='html')
+	public function issue_draft_set($params, $id=NULL)
 	{
 		$this->params = $this->auth+array(
-			'action' => 'issue.draft.set',
-			'obj'    => array(
-				'name'    => $name,
-				'from'    => $from,
-				'sender'  => $sender,
-				'subject' => $subject,
-				'text'    => $text,
-				'format'  => $format
-			),
+			'action'           => 'issue.draft.set',
+			'obj'              => $params,
 			'return_fresh_obj' => TRUE
 		);
 
@@ -646,7 +644,7 @@ class Sendsay
 	}
 
 	/**
-	 * Удаление черновика.
+	 * Удаляет черновик.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%B2%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
