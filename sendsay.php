@@ -636,7 +636,8 @@ class Sendsay
 				'subject' => $subject,
 				'text'    => $text,
 				'format'  => $format
-			)
+			),
+			'return_fresh_obj' => TRUE
 		);
 
 		$this->param('id', $id);
