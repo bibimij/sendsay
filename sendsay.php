@@ -622,11 +622,10 @@ class Sendsay
 	 * @param  string  тема письма
 	 * @param  string  содержимое письма
 	 * @param  string  формат черновика (html|sms|text)
-	 * @param  bool    вернуть параметры черновика
 	 * 
 	 * @return array
 	 */
-	public function issue_draft_set($id=NULL, $name=NULL, $from=NULL, $sender=NULL, $subject=NULL, $text=NULL, $format='html', $return=NULL)
+	public function issue_draft_set($id=NULL, $name=NULL, $from=NULL, $sender=NULL, $subject=NULL, $text=NULL, $format='html')
 	{
 		$this->params = $this->auth+array(
 			'action' => 'issue.draft.set',
@@ -641,7 +640,6 @@ class Sendsay
 		);
 
 		$this->param('id', $id);
-		$this->param('return_fresh_obj', $return);
 		
 		return $this->send();
 	}
