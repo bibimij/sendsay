@@ -685,7 +685,7 @@ class Sendsay
 			'action'       => 'issue.send',
 			'group'        => $group,
 			'letter' => array(
-				'draft.id'   => is_int($from) ? $from : NULL,
+				'draft.id'   => is_numeric($from) ? $from : NULL,
 				'from.email' => $from,
 				'from.name'  => $sender,
 				'subject'    => $subject,
