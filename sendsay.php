@@ -512,24 +512,23 @@ class Sendsay
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9E%D0%B1%D1%89%D0%B0%D1%8F-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%BF%D0%BE-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B5][Документация]
 	 * 
 	 * @param  array   коды групп; если пусто - по всем
-	 * @param  string  cпособ возврата результата (response|email|save)
-	 * @param  array   адреса получателей отчетов
-	 * @param  string  формат файла с данными (csv|xlsx)
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
 	 * 
 	 * @return array
 	 */
-	public function stat_group_common($groups=array(), $result='response', $email=array(), $format='csv')
+	public function stat_group_common($groups=array(), $result='save', $format='csv')
 	{
 		$this->params = $this->auth+array(
 			'action' => 'stat.group.common',
 			'group'  => $groups,
-			'result' => $result
+			'result' => is_array($result) ? 'email' : $result
 		);
 		
-		switch ($result)
+		switch ($this->params['result'])
 		{
 			case 'email':
-				$this->params['email'] = $email;
+				$this->params['email'] = $result;
 			case 'save':
 				$this->params['result.format'] = $format;
 		}
@@ -545,9 +544,9 @@ class Sendsay
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%92%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B0-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
 	 * @param  mixed   список подписчиков
-	 *                 string — ссылка на файл с подписчиками;
-	 *                 integer — идентификатор уже загруженных данных;
-	 *                 array — массив подписчиков;
+	 *                     string — ссылка на файл с подписчиками;
+	 *                     integer — идентификатор уже загруженных данных;
+	 *                     array — массив подписчиков
 	 * @param  array   группа импорта подписчиков
 	 * @param  string  действие, если адрес существует
 	 * @param  bool    срабатывание триггеров
