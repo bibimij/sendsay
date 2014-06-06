@@ -1271,8 +1271,8 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B][Документация]
 	 *
-	 * @param  datetime  дата события от
-	 * @param  datetime  дата события по
+	 * @param  datetime  дата события от (формат ГГГГ-ММ-ДД ЧЧ:ММ:СС)
+	 * @param  datetime  дата события по (формат ГГГГ-ММ-ДД ЧЧ:ММ:СС)
 	 *
 	 * @return array
 	 */
@@ -1379,8 +1379,7 @@ class Sendsay
 			'action' => 'authext.create',
 			'type'   => 8, // Google Analytics
 			'login'  => $login,
-			'token'  => $token,
-			// 'token'  => $token,
+			'token'  => $token
 		);
 		
 		return $this->send();
@@ -1397,16 +1396,16 @@ class Sendsay
 	 *
 	 * @return array
 	 */
-	public function authext_set($id, $login, $token)
+	public function authext_set($id, $login=NULL, $token=NULL)
 	{
 		$this->params = $this->auth+array(
 			'action' => 'authext.set',
 			'id'     => $id,
-			'type'   => 8,
-			'login'  => $login,
-			'token'  => $token,
-			// 'token'  => $token,
+			'type'   => 8 // Google Analytics
 		);
+
+		$this->param('login', $login);
+		$this->param('token', $token);
 		
 		return $this->send();
 	}
