@@ -264,26 +264,26 @@ class Sendsay
 	 * 
 	 * @param  string  емэйл подписчика
 	 * @param  array   массив с данными подписчика
-	 * @param  mixed   код шаблона письма-приветствия (int) или не высылать письмо (FALSE)
+	 * @param  mixed   код шаблона письма-приветствия (int) или не высылать письмо (NULL)
 	 * @param  int     необходимость подтверждения внесения в базу
 	 * @param  string  правило изменения ответов анкетных данных (error|update|overwrite)
 	 * @param  string  тип адреса подписчика (email|msisdn)
 	 * 
 	 * @return array
 	 */
-	public function member_set($email, $data=NULL, $notify=FALSE, $confirm=FALSE, $if_exists='overwrite', $addr_type='email')
+	public function member_set($email, $data=NULL, $notify=NULL, $confirm=FALSE, $if_exists='overwrite', $addr_type='email')
 	{
 		$this->params = $this->auth+array(
-			'action'                   => 'member.set',
-			'addr_type'                => $addr_type,
-			'email'                    => $email,
-			'source'                   => $_SERVER['REMOTE_ADDR'],
-			'if_exists'                => $if_exists,
-			'newbie.letter.no-confirm' => $notify,
-			'newbie.confirm'           => $confirm,
+			'action'         => 'member.set',
+			'addr_type'      => $addr_type,
+			'email'          => $email,
+			'source'         => $_SERVER['REMOTE_ADDR'],
+			'if_exists'      => $if_exists,
+			'newbie.confirm' => $confirm,
 		);
 		
 		$this->param('obj', $data);
+		$this->param('newbie.letter.no-confirm', $notify);
 
 		return $this->send();
 	}
@@ -1022,18 +1022,19 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D1%87%D0%B0%D1%81%D1%82%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B2-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D1%85][Документация]
 	 * 
-	 * @param  int     код последовательности
 	 * @param  string  емэйл подписчика
+	 * @param  mixed   код последовательности (int)
 	 * 
 	 * @return array
 	 */
-	public function sequence_member_membership($id, $email)
+	public function sequence_member_membership($email, $id=NULL)
 	{
 		$this->params = $this->auth+array(
 			'action' => 'sequence.member.membership',
-			'id'     => $id,
-			'member' => $email
+			'email'  => $email
 		);
+
+		$this->param('id', $id);
 		
 		return $this->send();
 	}
