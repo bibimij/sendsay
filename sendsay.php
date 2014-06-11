@@ -3,7 +3,7 @@
 /**
  * Библиотека Sendsay API.
  *
- * @version 1.0
+ * @version 1.1
  * @author  Alex Milekhin (me@alexmil.ru)
  * @link    [https://pro.subscribe.ru/API/API.html][Документация]
  */
@@ -79,6 +79,143 @@ class Sendsay
 	}
 	
 	/**
+	 * Возвращает список асинхронных запросов.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B0%D1%81%D0%B8%D0%BD%D1%85%D1%80%D0%BE%D0%BD%D0%BD%D1%8B%D1%85-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2][Документация]
+	 * 
+	 * @param  array  фильтр; массив должен содержать хотя бы один параметр
+	 * 
+	 * @return array
+	 */
+	public function track_list($filter)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'track.list',
+			'filter' => $filter
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Возвращает описание асинхронного запроса.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B0%D1%81%D0%B8%D0%BD%D1%85%D1%80%D0%BE%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%B0][Документация]
+	 * 
+	 * @param  int  код запроса
+	 * 
+	 * @return array
+	 */
+	public function track_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'track.get',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Возвращает список анкет.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82][Документация]
+	 * 
+	 * @return array
+	 */
+	public function anketa_list()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.list'
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Возвращает данные анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A7%D1%82%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.get',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Удаляет анкету.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_delete($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.delete',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Создаёт анкету.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  название анкеты
+	 * @param  string  код анкеты
+	 * @param  string  код копируемой анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_create($name, $id=NULL, $copy=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.create',
+			'name'   => $name
+		);
+
+		$this->param('id', $id);
+		$this->param('copy_from', $copy);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Изменяет название анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  string  название анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_set($id, $name)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'anketa.set',
+			'id'     => $id,
+			'name'   => $name
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
@@ -127,27 +264,27 @@ class Sendsay
 	 * 
 	 * @param  string  емэйл подписчика
 	 * @param  array   массив с данными подписчика
-	 * @param  int     уведомлять подписчика о внесении в базу (1) или нет (0)
-	 * @param  mixed   код шаблона письма
-	 * @param  int     подписчик должен подтвердить внесение в базу (1) или нет (0)
+	 * @param  mixed   код шаблона письма-приветствия (int) или не высылать письмо (NULL)
+	 * @param  int     необходимость подтверждения внесения в базу
 	 * @param  string  правило изменения ответов анкетных данных (error|update|overwrite)
+	 * @param  string  тип адреса подписчика (email|msisdn)
 	 * 
 	 * @return array
 	 */
-	public function member($email, $data=array(), $notify=0, $template='', $confirm=0, $if_exists='overwrite', $addr_type='email')
+	public function member_set($email, $data=NULL, $notify=NULL, $confirm=FALSE, $if_exists='overwrite', $addr_type='email')
 	{
 		$this->params = $this->auth+array(
-			'action'               => 'member.set',
-			'addr_type'            => $addr_type,
-			'email'                => $email,
-			'source'               => $_SERVER['REMOTE_ADDR'],
-			'if_exists'            => $if_exists,
-			'newbie.notify'        => $notify,
-			'newbie.notify.letter' => $template,
-			'newbie.confirm'       => $confirm,
-			'obj'                  => $data
+			'action'         => 'member.set',
+			'addr_type'      => $addr_type,
+			'email'          => $email,
+			'source'         => $_SERVER['REMOTE_ADDR'],
+			'if_exists'      => $if_exists,
+			'newbie.confirm' => $confirm,
 		);
 		
+		$this->param('obj', $data);
+		$this->param('newbie.letter.no-confirm', $notify);
+
 		return $this->send();
 	}
 	
@@ -156,18 +293,26 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  mixed  строка или массив с емэйл-адресами подписчиков
+	 * @param  mixed  список удаляемых емэйлов (array) или код группы (string)
 	 * @param  bool   флаг асинхронного запуска
 	 * 
 	 * @return array
 	 */
-	public function unsubscribe($email, $sync=FALSE)
+	public function member_delete($data, $sync=FALSE)
 	{
 		$this->params = $this->auth+array(
 			'action' => 'member.delete',
-			'list'   => is_array($email) ? $email : array($email),
 			'sync'   => $sync
 		);
+
+		if (is_array($data))
+		{
+			$this->params['list'] = $data;
+		}
+		else
+		{
+			$this->params['group'] = $data;
+		}
 		
 		return $this->send();
 	}
@@ -181,15 +326,17 @@ class Sendsay
 	 * @param  string  начиная с даты (формат YYYY-MM-DD)
 	 * @param  string  заканчивая датой (формат YYYY-MM-DD)
 	 * @param  array   массив с идентификаторами групп
+	 * @param  string  формат выпуска
 	 * 
 	 * @return array
 	 */
-	public function issue_list($from='1900-01-01', $to=NULL, $groups=array())
+	public function issue_list($from='1900-01-01', $to=NULL, $groups=array(), $format='email')
 	{
 		$this->params = $this->auth+array(
 			'action' => 'issue.list',
 			'from'   => $from,
-			'group'  => $groups
+			'group'  => $groups,
+			'format' => $format
 		);
 		
 		$this->param('upto', $to);
@@ -221,31 +368,40 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
+	 * @param  array   фильтр; может содержать следующие параметры:
+	 *                     gid — код группы
+	 *                     from — событие произошло начиная с даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     to — событие произошло не позже даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     issue.from — событие произошло из выпуска вышедшего начиная с даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                     issue.to — событие произошло из выпуска вышедшего не позже даты (включительно; формат ГГГГ-ММ-ДД)
+	 *                 из следующих параметров можно указать только один (исключение: можно совместить with_deliver и with_errs)
+	 *                     with_deliver => 1 — включить получивших выпуск
+	 *                     with_errs => 1 — включить подписчиков с ошибками доставки
+	 *                     with_remove => 1 — включить отписавшихся
+	 *                     with_read => 1 — включить прочитавших выпуск
+	 *                     with_links => 1 — включить перешедших по ссылкам
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
+	 * @param  int     число строк на странице
+	 * @param  int     текущая страница
+	 * 
 	 * @return array
 	 */
-	public function stat_activity($select, $gid=NULL, $limit=NULL, $page=NULL, $sort='date',
-		$desc=0, $from=NULL, $to=NULL, $issue_from=NULL, $issue_to=NULL, $result='save',
-		$email=array(), $format='csv')
+	public function stat_activity($filter=array(), $result='save', $format='csv', $limit=20, $page=1)
 	{
-		$this->params = $this->auth+$select+array(
-			'action' => 'stat.activity',
-			'sort'   => $sort,
-			'desc'   => $desc,
-			'result' => $result
+		$this->params = $this->auth+$filter+array(
+			'action'   => 'stat.activity',
+			'sort'     => 'date',
+			'desc'     => 1,
+			'result'   => is_array($result) ? 'email' : $result,
+			'page'     => $page,
+			'pagesize' => $limit
 		);
 		
-		$this->param('gid', $gid);
-		$this->param('limit', $limit);
-		$this->param('page', $page);
-		$this->param('from', $from);
-		$this->param('to', $to);
-		$this->param('issue_from', $issue_from);
-		$this->param('issue_to', $issue_to);
-		
-		switch ($result)
+		switch ($this->params['result'])
 		{
 			case 'email':
-				$this->params['email'] = $email;
+				$this->params['email'] = $result;
 			case 'save':
 				$this->params['result.format'] = $format;
 		}
@@ -254,31 +410,42 @@ class Sendsay
 	}
 	
 	/**
-	 * Возвращает статистику по выпускам.
+	 * Запрашивает статистику по выпускам.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B2%D1%8B%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
 	 * @param  string  начиная с даты (формат YYYY-MM-DD)
 	 * @param  string  заканчивая датой (формат YYYY-MM-DD)
-	 * @param  array   массив с идентификаторами групп
+	 * @param  array   список идентификаторов групп
 	 * @param  string  способ группировки по времени
-	 * @param  string  итог по всем записям (none — не нужен | yes  — нужен | only — только он и нужен)
-	 * @param  int     выводить (1) или нет (0) статистику по тем группам подписчиков, по которым не было отправлено ни одного выпуска
+	 * @param  string  итог по всем записям (none — не нужен | yes  — нужен | only — только итог)
+	 * @param  bool    вывод статистики по группам подписчиков без единого выпуска
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
 	 * 
 	 * @return array
 	 */
-	public function stat_issue($from=NULL, $to=NULL, $groups=array(), $groupby='YM', $total='none', $withempty=0)
+	public function stat_issue($from=NULL, $to=NULL, $groups=array(), $groupby='YM', $total='none', $withempty=FALSE, $result='save', $format='csv')
 	{
 		$this->params = $this->auth+array(
 			'action'     => 'stat.issue',
 			'group'      => $groups,
 			'groupby'    => $groupby,
 			'total'      => $total,
-			'withempty'  => $withempty
+			'withempty'  => $withempty,
+			'result'     => is_array($result) ? 'email' : $result
 		);
 		
 		$this->param('issue.from', $from);
 		$this->param('issue.upto', $to);
+
+		switch ($this->params['result'])
+		{
+			case 'email':
+				$this->params['email'] = $result;
+			case 'save':
+				$this->params['result.format'] = $format;
+		}
 		
 		return $this->send();
 	}
@@ -289,13 +456,13 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  array  список полей и функций для выборки
-	 * @param  array  фильтр результатов
-	 * @param  array  сортировка результата
-	 * @param  mixed  способ возврата результата; строка с типом или массив с емэйлами получателей
-	 * @param  string формат вывода
-	 * @param  int    число пропускаемых от начала строк данных отчёта; по умолчанию — 0
-	 * @param  int    число выбираемых строк после пропуска skip; по умолчанию — все
+	 * @param  array   список полей и функций для выборки
+	 * @param  array   фильтр результатов
+	 * @param  array   сортировка результата
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
+	 * @param  int     число пропускаемых от начала строк данных отчёта
+	 * @param  int     число выбираемых строк
 	 * 
 	 * @return array
 	 */
@@ -345,24 +512,23 @@ class Sendsay
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9E%D0%B1%D1%89%D0%B0%D1%8F-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%BF%D0%BE-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B5][Документация]
 	 * 
 	 * @param  array   коды групп; если пусто - по всем
-	 * @param  string  cпособ возврата результата (response|email|save)
-	 * @param  array   адреса получателей отчетов
-	 * @param  string  формат файла с данными (csv|xlsx)
+	 * @param  mixed   способ возврата результата; тип (response|save) или список получателей (array)
+	 * @param  string  формат вывода (csv|xlsx)
 	 * 
 	 * @return array
 	 */
-	public function stat_group_common($groups=array(), $result='response', $email=array(), $format='csv')
+	public function stat_group_common($groups=array(), $result='save', $format='csv')
 	{
 		$this->params = $this->auth+array(
 			'action' => 'stat.group.common',
 			'group'  => $groups,
-			'result' => $result
+			'result' => is_array($result) ? 'email' : $result
 		);
 		
-		switch ($result)
+		switch ($this->params['result'])
 		{
 			case 'email':
-				$this->params['email'] = $email;
+				$this->params['email'] = $result;
 			case 'save':
 				$this->params['result.format'] = $format;
 		}
@@ -372,17 +538,17 @@ class Sendsay
 	
 	/**
 	 * Импотирует список подписчиков.
-	 * В случае указания ссылки на список подписчиков, файл должен быть в UTF-8, а поля разделяться запятыми (стандарт CSV).
+	 * В случае указания ссылки на список подписчиков, файл должен быть в UTF-8, а поля разделяться запятыми (CSV-формат).
 	 * Первой строкой или элементом массива идёт заголовок.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%92%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B0-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%87%D0%B8%D0%BA%D0%BE%D0%B2][Документация]
 	 * 
 	 * @param  mixed   список подписчиков
-	 *                 string — ссылка на файл с подписчиками;
-	 *                 integer — идентификатор уже загруженных данных;
-	 *                 array — массив подписчиков;
+	 *                     string — ссылка на файл с подписчиками;
+	 *                     integer — идентификатор уже загруженных данных;
+	 *                     array — массив подписчиков
 	 * @param  array   группа импорта подписчиков
-	 * @param  string  действие, если адрес существует
+	 * @param  string  действие если адрес существует (overwrite|ignore|error)
 	 * @param  bool    срабатывание триггеров
 	 * @param  string  дополнить данными из формата
 	 * @param  string  номер шаблона письма
@@ -399,19 +565,20 @@ class Sendsay
 			'if_exists'      => $exist,
 			'separator'      => ',',
 			'charset'        => 'utf-8',
-			'sequence.event' => $trigger ? 1 : 0,
-			'newbie.confirm' => $confirm ? 1 : 0
+			'sequence.event' => $trigger,
+			'newbie.confirm' => $confirm
 		);
 		
-		if (gettype($data) == 'string')
+
+		if (is_string($data))
 		{
 			$this->params['users.url'] = $data;
 		}
-		elseif (gettype($data) == 'integer')
+		elseif (is_numeric($data))
 		{
 			$this->params['uid'] = $data;
 		}
-		else
+		elseif (is_array($data))
 		{
 			$this->params['users.list'] = json_encode($data);
 		}
@@ -448,39 +615,36 @@ class Sendsay
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B8%D0%BB%D0%B8-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%B2%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
-	 * @param  int     код черновика
-	 * @param  string  название черновика
-	 * @param  string  имя отправителя
-	 * @param  string  емэйл отправителя
-	 * @param  string  тема письма
-	 * @param  string  содержимое письма
-	 * @param  string  формат черновика (html|sms|text)
-	 * @param  bool    вернуть параметры черновика
+	 * @param  array  параметры черновика
+	 *                    name — название черновика
+	 *                    format — формат черновика (html|sms|text)
+	 *                    division — идентификатор подразделения, имеющего доступ к черновику
+	 *                    from — емэйл отправителя
+	 *                    sender — имя отправителя
+	 *                    reply.email — обратный адрес для ответа
+	 *                    reply.name — имя для обратного адреса для ответа
+	 *                    to.name — имя получателя
+	 *                    subject — тема письма
+	 *                    text — содердимое черновика
+	 * @param  int    код черновика
 	 * 
 	 * @return array
 	 */
-	public function issue_draft_set($id=NULL, $name=NULL, $from=NULL, $sender=NULL, $subject=NULL, $text=NULL, $format='html', $return=NULL)
+	public function issue_draft_set($params, $id=NULL)
 	{
 		$this->params = $this->auth+array(
-			'action' => 'issue.draft.set',
-			'obj'    => array(
-				'name'    => $name,
-				'from'    => $from,
-				'sender'  => $sender,
-				'subject' => $subject,
-				'text'    => $text,
-				'format'  => $format
-			)
+			'action'           => 'issue.draft.set',
+			'obj'              => $params,
+			'return_fresh_obj' => TRUE
 		);
 
 		$this->param('id', $id);
-		$this->param('return_fresh_obj', $return);
 		
 		return $this->send();
 	}
 
 	/**
-	 * Удаление черновика.
+	 * Удаляет черновик.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%B2%D0%B8%D0%BA%D0%B0][Документация]
 	 * 
@@ -521,7 +685,7 @@ class Sendsay
 			'action'       => 'issue.send',
 			'group'        => $group,
 			'letter' => array(
-				'draft.id'   => is_int($from) ? $from : NULL,
+				'draft.id'   => is_numeric($from) ? $from : NULL,
 				'from.email' => $from,
 				'from.name'  => $sender,
 				'subject'    => $subject,
@@ -543,30 +707,334 @@ class Sendsay
 	}
 
 	/**
+	 * Возвращает список последовательностей.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BEc%D1%82%D0%B5%D0%B9][Документация]
+	 * 
+	 * @return array
+	 */
+	public function sequence_list()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.list'
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Создаёт последовательность.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#C%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C][Документация]
+	 * 
+	 * @param  string  название последовательности
+	 * @param  bool    однократность последовательности
+	 * @param  bool    закрытость для новых участников
+	 * @param  bool    возобновлять прохождение при увеличении количества шагов
+	 * @param  bool    отстановка последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_create($name, $onlyonce=FALSE, $closed=FALSE, $rog=FALSE, $pause=FALSE)
+	{
+		$this->params = $this->auth+array(
+			'action'            => 'sequence.create',
+			'name'              => $name,
+			'onlyonce'          => $onlyonce,
+			'parrallel'         => 0,
+			'closed'            => $closed,
+			'resume_on_growing' => $rog,
+			'pause'             => $pause
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает параметры последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C][Документация]
+	 * 
+	 * @param  int  код последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.get',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Изменяет параметры последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B8%D1%82%D1%8C-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C][Документация]
+	 * 
+	 * @param  int     код последовательности
+	 * @param  string  название последовательности
+	 * @param  bool    однократность последовательности
+	 * @param  bool    закрытость для новых участников
+	 * @param  bool    возобновлять прохождение при увеличении количества шагов
+	 * @param  bool    отстановка последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_set($id, $name=NULL, $onlyonce=NULL, $closed=NULL, $rog=NULL, $pause=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.set',
+			'id'     => $id
+		);
+
+		$this->param('name', $name);
+		$this->param('pause', $pause);
+		$this->param('closed', $closed);
+		$this->param('onlyonce', $onlyonce);
+		$this->param('resume_on_growing', $rog);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Удаляет последовательность.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C][Документация]
+	 * 
+	 * @param  int  код последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_delete($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.delete',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Получает список шагов последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C-%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D1%88%D0%B0%D0%B3%D0%BE%D0%B2][Документация]
+	 * 
+	 * @param  int  код последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_steps_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.steps.get',
+			'id'     => $id
+		);
+
+		return $this->send();
+	}
+
+	/**
+	 * Задаёт шаги последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D1%88%D0%B0%D0%B3%D0%BE%D0%B2][Документация]
+	 * 
+	 * @param  int    код последовательности
+	 * @param  array  шаги последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_steps_set($id, $steps)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.steps.set',
+			'id'     => $id,
+			'list'   => $steps
+		);
+
+		return $this->send();
+	}
+
+	/**
+	 * Запрашивает статистику последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
+	 * 
+	 * @param  int  код последовательности
+	 * 
+	 * @return array
+	 */
+	public function sequence_stats($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.stats',
+			'id'     => $id
+		);
+
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает список участников последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D1%83%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
+	 * 
+	 * @param  int     код последовательности
+	 * @param  string  способ группировки (member|step) или не группировать (NULL)
+	 * @param  array   список интересующих шагов
+	 * 
+	 * @return array
+	 */
+	public function sequence_member_list($id, $group=NULL, $steps=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.member.list',
+			'id'     => $id
+		);
+
+		$this->param('groupby', $group);
+		$this->param('steps', $steps);
+
+		return $this->send();
+	}
+
+	/**
+	 * Отправляет подписчика на последовательность.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9D%D0%B0%D1%87%D0%B0%D1%82%D1%8C-%D0%BF%D1%80%D0%BE%D1%85%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
+	 * 
+	 * @param  int    код последовательности
+	 * @param  mixed  список емэйлов (array) или код группы (string)
+	 * 
+	 * @return array
+	 */
+	public function sequence_member_start($id, $users)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.member.start',
+			'id'     => $id
+		);
+
+		if (is_array($users))
+		{
+			$this->param('list', $users);
+		}
+		else
+		{
+			$this->param('group', $users);
+		}
+
+		return $this->send();
+	}
+
+	/**
+	 * Приостанавливает прохождение подписчиком последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%B8%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-%D0%BF%D1%80%D0%BE%D1%85%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
+	 * 
+	 * @param  int    код последовательности
+	 * @param  mixed  список емэйлов (array) или код группы (string)
+	 * 
+	 * @return array
+	 */
+	public function sequence_member_pause($id, $users)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.member.pause',
+			'id'     => $id
+		);
+
+		if (is_array($users))
+		{
+			$this->param('list', $users);
+		}
+		else
+		{
+			$this->param('group', $users);
+		}
+
+		return $this->send();
+	}
+
+	/**
+	 * Возобновляет прохождение подписчиком последовательности.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%92%D0%BE%D0%B7%D0%BE%D0%B1%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-%D0%BF%D1%80%D0%BE%D1%85%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
+	 * 
+	 * @param  int    код последовательности
+	 * @param  mixed  список емэйлов (array) или код группы (string)
+	 * 
+	 * @return array
+	 */
+	public function sequence_member_resume($id, $users)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.member.resume',
+			'id'     => $id
+		);
+
+		if (is_array($users))
+		{
+			$this->param('list', $users);
+		}
+		else
+		{
+			$this->param('group', $users);
+		}
+
+		return $this->send();
+	}
+
+	/**
 	 * Завершает прохождение подписчиками последовательности.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%B5%D1%80%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D1%80%D0%BE%D1%85%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8][Документация]
 	 * 
 	 * @param  int    код последовательности
-	 * @param  mixed  код группы (string) или список емэйлов (array)
+	 * @param  mixed  список емэйлов (array) или код группы (string)
 	 * 
 	 * @return array
 	 */
-	public function sequence_member_stop($id, $data)
+	public function sequence_member_stop($id, $users)
 	{
 		$this->params = $this->auth+array(
-			'action'       => 'sequence.member.stop',
-			'id'           => $id
+			'action' => 'sequence.member.stop',
+			'id'     => $id
 		);
 
-		if (gettype($data) == 'string')
+		if (is_array($users))
 		{
-			$this->params['group'] = $data;
+			$this->param('list', $users);
 		}
-		elseif (gettype($data) == 'array')
+		else
 		{
-			$this->params['list'] = $data;
+			$this->param('group', $users);
 		}
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает список последовательностей, где числится указанный подписчик.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D1%87%D0%B0%D1%81%D1%82%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B2-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8F%D1%85][Документация]
+	 * 
+	 * @param  string  емэйл подписчика
+	 * @param  mixed   код последовательности (int)
+	 * 
+	 * @return array
+	 */
+	public function sequence_member_membership($email, $id=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sequence.member.membership',
+			'email'  => $email
+		);
+
+		$this->param('id', $id);
 		
 		return $this->send();
 	}
@@ -630,6 +1098,352 @@ class Sendsay
 			'action' => 'rfs.dir.delete',
 			'domain' => 'image',
 			'path'   => $path
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает список настроек.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8][Документация]
+	 * 
+	 * @return array
+	 */
+	public function sys_settings_get()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.settings.get'
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Сохраняет настройки.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D0%BE%D0%BC%D0%B5%D0%BD%D1%8F%D1%82%D1%8C-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8][Документация]
+	 * 
+	 * @param  array  массив изменяемых параметров
+	 *
+	 * @return array
+	 */
+	public function sys_settings_set($options)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.settings.set',
+			'list'   => $options
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает список пользователей.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9][Документация]
+	 *
+	 * @return array
+	 */
+	public function user_list()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'user.list'
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Создаёт пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F][Документация]
+	 *
+	 * @param  string  саблогин
+	 * @param  string  пароль
+	 * @param  string  адрес получателя письма с данными пользователя
+	 *
+	 * @return array
+	 */
+	public function user_create($login, $password, $email=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action'   => 'user.create',
+			'sublogin' => $login,
+			'password' => $password
+		);
+
+		$this->param('email', $email);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Удаляет пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F][Документация]
+	 *
+	 * @param  string  саблогин
+	 *
+	 * @return array
+	 */
+	public function user_delete($login)
+	{
+		$this->params = $this->auth+array(
+			'action'   => 'user.delete',
+			'sublogin' => $login
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Изменяет пароль и статус пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D1%8F-%D0%B8-%D1%81%D1%82%D0%B0%D1%82%D1%83%D1%81%D0%B0-%D0%BB%D1%8E%D0%B1%D0%BE%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F][Документация]
+	 *
+	 * @param  string  саблогин
+	 * @param  int     состояние пользователя (−1 — заставить сменить пароль | 0 — активировать | 1 — заблокировать)
+	 * @param  string  старый пароль
+	 * @param  string  новый пароль
+	 * @param  string  адрес получателя письма с данными пользователя
+	 *
+	 * @return array
+	 */
+	public function user_set($login, $status, $old_password=NULL, $new_password=NULL, $email=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action'       => 'user.set',
+			'sublogin'     => $login,
+			'status'       => $status
+		);
+
+		$this->param('email', $email);
+		$this->param('password.old', $old_password);
+		$this->param('password.new', $new_password);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Изменяет пароль текущего пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D1%8F-%D1%81%D0%B5%D0%B1%D0%B5][Документация]
+	 *
+	 * @param  string  старый пароль
+	 * @param  string  новый пароль
+	 *
+	 * @return array
+	 */
+	public function sys_password_set($old_password, $new_password)
+	{
+		$this->params = $this->auth+array(
+			'action'       => 'sys.password.set',
+			'password.old' => $old_password,
+			'password.new' => $new_password
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Отправляет сообщение в техподдержку.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9E%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%81%D0%B0%D0%BF%D0%BF%D0%BE%D1%80%D1%82][Документация]
+	 *
+	 * @param  string  емэйл для связи
+	 * @param  string  текст сообщения
+	 *
+	 * @return array
+	 */
+	public function sys_message($email, $text)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.message',
+			'email'  => $email,
+			'text'   => $text
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Запрашивает лог активности аккаунта.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B][Документация]
+	 *
+	 * @param  datetime  дата события от (формат ГГГГ-ММ-ДД ЧЧ:ММ:СС)
+	 * @param  datetime  дата события по (формат ГГГГ-ММ-ДД ЧЧ:ММ:СС)
+	 *
+	 * @return array
+	 */
+	public function sys_log($from=NULL, $to=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'sys.log'
+		);
+
+		$this->param('from', $from);
+		$this->param('upto', $to);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Запрашивает права доступа пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A7%D1%82%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%B0%D0%B2][Документация]
+	 *
+	 * @param  string  логин пользователя
+	 *
+	 * @return array
+	 */
+	public function rights_get($login)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'rights.get',
+			'user'   => $login
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Уставнавливает права доступа пользователя.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BF%D1%80%D0%B0%D0%B2][Документация]
+	 *
+	 * @param  string  логин пользователя
+	 * @param  array   список устанавливаемых прав
+	 *
+	 * @return array
+	 */
+	public function rights_set($login, $rights)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'rights.set',
+			'user'   => $login,
+			'list'   => $rights
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает список внешних авторизаций.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B8%D1%85-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B9][Документация]
+	 *
+	 * @return array
+	 */
+	public function authext_list()
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.list'
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Считывает параметры внешней авторизации.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A7%D1%82%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8][Документация]
+	 * 
+	 * @param  string  код внешней авторизации
+	 *
+	 * @return array
+	 */
+	public function authext_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.get',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Создаёт внешнюю авторизацию.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8][Документация]
+	 * 
+	 * @param  string  логин внешней авторизации
+	 * @param  string  токен внешней авторизации (refresh token)
+	 *
+	 * @return array
+	 */
+	public function authext_create($login, $token)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.create',
+			'type'   => 8, // Google Analytics
+			'login'  => $login,
+			'token'  => $token
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Изменяет внешнюю авторизацию.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8][Документация]
+	 * 
+	 * @param  string  код внешней авторизации
+	 * @param  string  логин внешней авторизации
+	 * @param  string  токен внешней авторизации (refresh token)
+	 *
+	 * @return array
+	 */
+	public function authext_set($id, $login=NULL, $token=NULL)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.set',
+			'id'     => $id,
+			'type'   => 8 // Google Analytics
+		);
+
+		$this->param('login', $login);
+		$this->param('token', $token);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Удаляет внешнюю авторизацию.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8][Документация]
+	 * 
+	 * @param  string  код внешней авторизации
+	 *
+	 * @return array
+	 */
+	public function authext_delete($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.delete',
+			'id'     => $id
+		);
+		
+		return $this->send();
+	}
+
+	/**
+	 * Возвращает информацию об авторизации в Google Analytics.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F-%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-%D0%B2-Google-Analitics][Документация]
+	 * 
+	 * @param  string  код внешней авторизации
+	 *
+	 * @return array
+	 */
+	public function authext_ga_props($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'authext.ga.props',
+			'id'     => $id
 		);
 		
 		return $this->send();
