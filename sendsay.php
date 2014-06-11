@@ -3,7 +3,7 @@
 /**
  * Библиотека Sendsay API.
  *
- * @version 1.0
+ * @version 1.1
  * @author  Alex Milekhin (me@alexmil.ru)
  * @link    [https://pro.subscribe.ru/API/API.html][Документация]
  */
