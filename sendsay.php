@@ -279,6 +279,27 @@ class Sendsay
 	}
 	
 	/**
+	 * Изменяет порядок вопросов анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D0%B8-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  mixed   коды вопросов анкеты в нужном порядке
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_order($anketa, $order)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.order',
+			'anketa.id' => $anketa,
+			'order'     => $order
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
