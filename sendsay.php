@@ -3,7 +3,7 @@
 /**
  * Библиотека Sendsay API.
  *
- * @version 1.3
+ * @version 1.4
  * @author  Alex Milekhin (me@alexmil.ru)
  * @link    [https://pro.subscribe.ru/API/API.html][Документация]
  */
@@ -708,6 +708,32 @@ class Sendsay
 		$this->params = $this->auth+array(
 			'action' => 'group.list'
 		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Создаёт группу.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%83][Документация]
+	 * 
+	 * @param  string  название группы
+	 * @param  string  тип группы (list|filter)
+	 * @param  string  код группы
+	 * @param  string  тип адресов (email|msisdn)
+	 * 
+	 * @return array
+	 */
+	public function group_create($name, $type='list', $id=NULL, $addr_type='email')
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'group.create',
+			'name'      => $name,
+			'type'      => $type,
+			'addr_type' => $addr_type
+		);
+
+		$this->param('id', $id);
 		
 		return $this->send();
 	}
