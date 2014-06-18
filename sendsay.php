@@ -216,6 +216,136 @@ class Sendsay
 	}
 	
 	/**
+	 * Добавляет вопрос в анкету.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  array   один или несколько вопросов анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_add($anketa, $questions)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.add',
+			'anketa.id' => $anketa,
+			'obj'       => $questions
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Изменяет вопросы анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  array   один или несколько вопросов анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_set($anketa, $questions)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.set',
+			'anketa.id' => $anketa,
+			'obj'       => $questions
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Удаляет вопрос из анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  mixed   один (string) или несколько (array) вопросов анкеты
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_delete($anketa, $questions)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.delete',
+			'anketa.id' => $anketa,
+			'id'        => $questions
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Изменяет порядок вопросов анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D0%B8-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  mixed   коды вопросов анкеты в нужном порядке
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_order($anketa, $order)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.order',
+			'anketa.id' => $anketa,
+			'order'     => $order
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Изменяет порядок ответов.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%98%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D0%B8-%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D0%B0-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  string  код вопроса
+	 * @param  array   коды ответов в нужном порядке
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_response_order($anketa, $question, $order)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.response.order',
+			'anketa.id' => $anketa,
+			'id'        => $question,
+			'order'     => $order
+		);
+		
+		return $this->send();
+	}
+	
+	/**
+	 * Удаляет ответ из вопроса анкеты.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A3%D0%B4%D0%B0%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D0%B0-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%8B][Документация]
+	 * 
+	 * @param  string  код анкеты
+	 * @param  string  код вопроса
+	 * @param  string  код ответа
+	 * 
+	 * @return array
+	 */
+	public function anketa_quest_response_delete($anketa, $question, $answer)
+	{
+		$this->params = $this->auth+array(
+			'action'    => 'anketa.quest.response.delete',
+			'anketa.id' => $anketa,
+			'quest.id'  => $question,
+			'id'        => $answer
+		);
+		
+		return $this->send();
+	}
+	
+	/**
 	 * Проверяет список адресов на синтаксическую верность, доступность и возвращает нормализованый вариант написания.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D0%BE%D0%B2][Документация]
@@ -1464,7 +1594,7 @@ class Sendsay
 		$indentStr   = "\t";
 		$newLine     = "\n";
 		$prevChar    = '';
-		$outOfQuotes = true;
+		$outOfQuotes = TRUE;
 	
 		for ($i = 0; $i <= $strLen; $i++)
 		{
@@ -1478,7 +1608,8 @@ class Sendsay
 			{
 				$result .= $newLine;
 				$pos--;
-				for ($j=0; $j<$pos; $j++)
+
+				for ($j = 0; $j < $pos; $j++)
 				{
 					$result .= $indentStr;
 				}
@@ -1489,6 +1620,7 @@ class Sendsay
 			if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes)
 			{
 				$result .= $newLine;
+
 				if ($char == '{' || $char == '[')
 				{
 					$pos++;
