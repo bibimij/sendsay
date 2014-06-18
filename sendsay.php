@@ -154,6 +154,25 @@ class Sendsay
 		return $this->send();
 	}
 	
+	/**
+	 * Считывает формат или шаблон.
+	 * 
+	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A7%D1%82%D0%B5%D0%BD%D0%B8%D0%B5-%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%D0%B0%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D0%B0][Документация]
+	 * 
+	 * @param  string  код формата
+	 * 
+	 * @return array
+	 */
+	public function format_get($id)
+	{
+		$this->params = $this->auth+array(
+			'action' => 'format.get',
+			'id'     => $id
+		);
+
+		return $this->send();
+	}
+	
 	 * Возвращает список анкет.
 	 * 
 	 * @link  [https://pro.subscribe.ru/API/API.html#%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D0%B0%D0%BD%D0%BA%D0%B5%D1%82][Документация]
